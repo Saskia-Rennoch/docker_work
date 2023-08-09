@@ -1,0 +1,38 @@
+version: '3'
+
+services:  #containers
+  reddit_collector:
+    build: /API-code  #image wird created
+    volumes:
+      - ./API-code/:/my_app
+    depends_on:
+      - my_mongo
+
+
+  etl:
+    build: /etl #build
+    volumes:
+      - ./etl/:/my_app  #volume is wo unsre Dateien gespeichert sind
+    depends_on:
+      - my_mongo #they are containers
+      - my_postgres #is a container
+
+
+  my_mongo:  #wir pullen das image, daher kein Container
+    image: mongo   #pulled images dont need a volume
+    ports:        #ports nur beim pullen notwendig
+      - 27018:27017  #1 port on computer, 2 port inside container, avoid conflict of availability
+
+
+  my_postgres:  #wir pullen das image, daher kein Container
+    image: postgres #pulled
+    ports:
+      - 5555:5432
+    environment:         #ask for master user and master password, create db called reddits_pgdb
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=reddits_pgdb
+
+
+
+

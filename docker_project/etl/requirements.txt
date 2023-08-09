@@ -1,0 +1,6 @@
+pymongo
+sqlalchemy  # use a version prior to 2.0.0 or adjust creating the engine and df.to_sql(); postgres thingy
+psycopg2-binary
+pandas
+vaderSentiment
+requests
